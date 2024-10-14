@@ -13,7 +13,7 @@ a {
 }
 
 .navbar-brand img {
-    height: 20px; /* Adjust this value to scale the logo */
+    height: 60px; /* Adjust this value to scale the logo */
     width: auto; /* Ensure aspect ratio is maintained */
 }
 

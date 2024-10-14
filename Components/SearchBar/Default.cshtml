@@ -1,0 +1,20 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<form asp-page="/Search" method="get" class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search for products" aria-label="Search" />
+
+    <select class="form-control mr-sm-2" name="category">
+        <option value="">All Categories</option>
+        @foreach (var category in Model)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select>
+
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>

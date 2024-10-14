@@ -4,7 +4,59 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="product-categories my-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Find What You Need</h2>
+
+        <div class="scrolling-wrapper d-flex flex-row flex-nowrap overflow-auto pb-4">
+            @foreach (var category in Model.categories)
+            {
+                <div class="category-card text-center p-3">
+                    <h5>@category.Name</h5> 
+
+                    <div class="row">
+                        @foreach (var product in category.Products.Take(4))
+                        {
+                            <div class="col-6 p-1">
+                                <a asp-page="/Products/Details" asp-route-id="@product.ProductId">
+                                    <img src="@(!string.IsNullOrEmpty(product.ImageUrl) ? product.ImageUrl : Url.Content("~/assets/default_product.jpeg"))"
+                                         class="img-fluid product-image"
+                                         alt="@product.Name">
+                                </a>
+                            </div>
+                        }
+                    </div>
+
+               </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- CSS for Styling -->
+<style>
+    /* Horizontal scroll container */
+    .scrolling-wrapper {
+        display: flex;
+        flex-wrap: nowrap; 
+        overflow-x: auto; 
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
+    }
+
+    .category-card {
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #fff;
+        margin-right: 15px;
+        width: 500px; /* Fixed width for large cards */
+        flex: 0 0 auto; /* Prevent shrinking or growing */
+    }
+
+    .product-image {
+        width: 100%; 
+        height: 200px; 
+        object-fit: cover; /* Maintain aspect ratio while filling the container */
+        border-radius: 5px;
+    }
+
+</style>

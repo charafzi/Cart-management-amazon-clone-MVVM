@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ShopEase_app.Models;
-using ecom_app.Data;
+using System.Threading.Tasks;
 
 namespace ecom_app.Pages.Products
 {
