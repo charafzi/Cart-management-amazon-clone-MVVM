@@ -13,14 +13,75 @@ a {
 }
 
 .navbar-brand img {
-    height: 60px; /* Adjust this value to scale the logo */
-    width: auto; /* Ensure aspect ratio is maintained */
+    height: 60px; 
+    width: auto;
 }
 
+.card {
+    border: 2px solid #000814;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.btn-outline-success {
+    background-color: #FFC300;
+    color: #fff;
+    border: 2px solid #fff;
+}
+
+    .btn-outline-success:hover {
+        background-color: #fff;
+        color: #FFC300;
+        border: 2px solid #FFC300;
+    }
+
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    background-color: #FFC300 !important;
+    color: #000814 !important;
+    border: 2px solid #FFC300 !important;
+}
+
+    .btn-primary:hover {
+        background-color: #003566 !important;
+        color: #fff !important;
+        border: 2px solid #003566 !important;
+    }
+
+.alert {
+    max-width: 400px;
+    width: 30%;
+    padding: 10px 20px;
+    text-align: center;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    animation: fadeOutAlert 5s ease forwards;
+    z-index: 9999;
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes fadeOutAlert {
+    0% {
+        opacity: 1; 
+    }
+
+    80% {
+        opacity: 1; 
+    }
+
+    100% {
+        opacity: 0; 
+    }
+}
+
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {

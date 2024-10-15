@@ -5,9 +5,7 @@
 }
 
 
-<form asp-page="/Search/Search" method="get" class="form-inline my-2 my-lg-0">
-    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search for products" aria-label="Search" />
-
+<form asp-page="/Search/Search" method="get" class="form-inline my-2 my-lg-0 search-form">
     <select class="form-control mr-sm-2" name="category">
         <option value="">All Categories</option>
         @foreach (var category in Model)
@@ -15,6 +13,26 @@
             <option value="@category.Id">@category.Name</option>
         }
     </select>
+    <input class="form-control mr-sm-2" type="number" name="minPrice" placeholder="Min Price" aria-label="Min Price" style="width: 150px;"/>
+    <input class="form-control mr-sm-2" type="number" name="maxPrice" placeholder="Max Price" aria-label="Max Price" style="width: 150px;" />
+    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search for products" aria-label="Search" style="width: 250px;" />
 
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 </form>
+
+<style>
+    .search-form {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+        .search-form .form-control {
+            width: auto;
+            margin: 0 5px;
+        }
+
+        .search-form button {
+            display: inline-block;
+        }
+</style>
