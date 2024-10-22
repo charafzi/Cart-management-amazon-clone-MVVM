@@ -15,6 +15,41 @@
         @TempData["errorMsg"]
     </div>
 }
+<div class="row">
+    <div class="col-auto">
+        <label>@Model.totalProducts Results</label>
+    </div>
+    <div class="col-auto">
+        <form method="post" asp-page-handler="Sort">
+            <input type="hidden" name="query" value="@Model.Query" />
+            <input type="hidden" name="category" value="@Model.SelectedCategory" />
+            <input type="hidden" name="minPrice" value="@Request.Query["minPrice"]" />
+            <input type="hidden" name="maxPrice" value="@Request.Query["maxPrice"]" />
+            <select name="sort" class="form-select" onchange="this.form.submit()">
+                <option value="">Sort by</option>
+                @if (Model.Sort == "price_asc")
+                {
+                    <option value="price_asc" selected>Price (Low to High)</option>
+                }
+                else
+                {
+                    <option value="price_asc">Price (Low to High)</option>
+                }
+
+                @if (Model.Sort == "price_desc")
+                {
+                    <option value="price_desc" selected>Price (High to Low)</option>
+                }
+                else
+                {
+                    <option value="price_desc">Price (High to Low)</option>
+                }
+            </select>
+        </form>
+    </div>
+
+</div>
+
 <div class="container mt-4">
 
 
@@ -65,6 +100,42 @@
             </div>
         }
     </div>
+    <nav>
+        <ul class="pagination">
+            @if (Model.currentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-page-handler="Get" asp-route-currPage="@(Model.currentPage - 1)"
+                       asp-route-query="@Model.Query"
+                       asp-route-category="@Model.SelectedCategory"
+                       asp-route-minPrice="@Request.Query["minPrice"]"
+                       asp-route-maxPrice="@Request.Query["maxPrice"]">Previous</a>
+                </li>
+            }
+
+            @for (int i = 1; i <= Model.totalPages; i++)
+            {
+                <li class="page-item @(Model.currentPage == i ? "active" : "")">
+                    <a class="page-link" asp-page-handler="Get" asp-route-currPage="@i"
+                       asp-route-query="@Model.Query"
+                       asp-route-category="@Model.SelectedCategory"
+                       asp-route-minPrice="@Request.Query["minPrice"]"
+                       asp-route-maxPrice="@Request.Query["maxPrice"]">@i</a>
+                </li>
+            }
+
+            @if (Model.currentPage < Model.totalPages)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-page-handler="Get" asp-route-currPage="@(Model.currentPage + 1)"
+                       asp-route-query="@Model.Query"
+                       asp-route-category="@Model.SelectedCategory"
+                       asp-route-minPrice="@Request.Query["minPrice"]"
+                       asp-route-maxPrice="@Request.Query["maxPrice"]">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
 
 
 
@@ -96,11 +167,14 @@
         border-radius: 5px;
     }
 
+
+
     .product-image {
         max-width: 100%;
         max-height: 100%;
         object-fit: contain; /* Ensures the entire image fits within the container */
         border-radius: 5px;
     }
+
 
 </style>

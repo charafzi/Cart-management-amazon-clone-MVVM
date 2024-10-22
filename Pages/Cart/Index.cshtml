@@ -11,41 +11,102 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="container">
             @foreach (var item in Model.Cart.CartItems)
             {
-                <tr>
-                    <td>@item.Product.Name</td>
-                    <td>@item.Product.Price Dh</td>
-                    <td>@item.Quantity</td>
-                    <td>@(item.Product.Price * item.Quantity) Dh</td>
-                    <td>
-                        <!-- Remove Item Form -->
-                        <form method="post" asp-page-handler="RemoveItem">
-                            <input type="hidden" name="cartItemId" value="@item.CartItemId" />
-                            <button type="submit" class="btn btn-danger">Remove <i class="fa-solid fa-trash" style="color: #ffffff;"></i></button>
-                        </form>
-                    </td>
-                </tr>
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="card h-100">
+                        <div class="row">
+                            <div class="col-3 product-image-container">
+                                <img src="@(!string.IsNullOrEmpty(@item.Product.ImageUrl) ? @item.Product.ImageUrl : Url.Content("~/assets/default_product.jpeg"))"
+                                     alt="@item.Product.Name"
+                                     class="img-fluid product-image">
+
+                            </div>
+                            <div class="col-4">
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">@item.Product.Name</h5>
+                                    <p class="card-text flex-grow-1">@item.Product.Description</p>
+                                    <p class="card-text flex-grow-1">@item.Product.Price Dh</p>
+              
+                                </div>
+                            </div>
+                            <div class="col-auto ms-auto d-flex flex-column justify-content-end">
+                                <div class="d-flex align-items-center" style="margin: 5px 20px;">
+                                    <form method="post" asp-page-handler="IncreaseQty" class="d-inline-block mr-4 v custom-margin">
+                                        <input type="hidden" name="productId" value="@item.Product.ProductId" />
+                                        <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></button>
+                                    </form>
+                                    <strong>@item.Quantity</strong>
+
+                                    <form method="post" asp-page-handler="DecreaseQty" class="d-inline-block mr-4 custom-margin">
+                                        <input type="hidden" name="productId" value="@item.Product.ProductId" />
+                                        <button type="submit" class="btn btn-danger btn-sm" @(item.Quantity == 1 ? "disabled" : "")><i class="fa-solid fa-minus" style="color: #ffffff;"></i></button>
+                                    </form>
+
+                                    <strong>Sub-total (@item.Quantity Articles): </strong> @(item.Quantity * item.Product.Price) Dh<br />
+                                    <form method="post" asp-page-handler="RemoveItem" class="d-inline-block mr-4 custom-margin">
+                                        <input type="hidden" name="productId" value="@item.Product.ProductId" />
+                                        <button type="submit" class="btn btn-danger btn-sm">Remove <i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                      
+                    </div>
+                </div>
+                </div>
             }
-        </tbody>
-    </table>
 
-    <p><strong>Total: </strong> @Model.Cart.CartItems.Sum(i => i.Product.Price * i.Quantity) Dh</p>
+        <div class="row">
+            <div class="col-auto ms-auto d-flex flex-column justify-content-end">
+                <div class="d-flex align-items-center">
+                    <p class="card-text custom-margin">
+                        <strong>Total Price:</strong> @Model.Cart.CartItems.Sum(i => i.Product.Price * i.Quantity) Dh
+                    </p>
+                    <form method="post" asp-page-handler="ClearCart" class="custom-margin">
+                        <button type="submit" class="btn btn-danger btn-block">Clear Cart <i class="fa-solid fa-circle-xmark"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <!-- Clear Cart Form -->
-    <form method="post" asp-page-handler="ClearCart">
-            <button type="submit" class="btn btn-danger">Clear Cart <i class="fa-solid fa-circle-xmark" style="color: #ffffff;"></i></button>
-    </form>
     
 }
+<style>
+    .container .row{
+        width: 100%;
+    }
+
+    .card-img-top {
+        max-width: 100px;
+        max-height: 100px;
+        object-fit: contain; 
+        border-radius: 5px;
+    }
+
+    .custom-margin{
+        margin: 0 10px;
+    }
+
+    .product-image-container {
+        width: 200px;
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 5px;
+    }
+
+    .product-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* Ensures the entire image fits within the container */
+        border-radius: 5px;
+    }
+
+</style>

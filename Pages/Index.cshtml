@@ -26,6 +26,12 @@
                             </div>
                         }
                     </div>
+                    <div>
+                        <form asp-page="/Search/Search" method="get">
+                            <input type="hidden" name="category" value="@category.Id" />
+                            <button class="btn btn-primary" type="submit">See more</button>
+                        </form>
+                    </div>
 
                </div>
             }
