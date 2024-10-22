@@ -17,6 +17,7 @@ namespace ecom_app.Pages.Cart
 
         public IActionResult OnPost(int productId, int quantity)
         {
+            //get product based on Id
             var product = _context.Product.FirstOrDefault(p => p.ProductId == productId);
             if (product == null)
             {
@@ -27,6 +28,8 @@ namespace ecom_app.Pages.Cart
             var cart = Request.GetCartFromCookie();
 
             var cartItem = cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId);
+
+            //Product exist in cart
             if (cartItem != null)
             {
                 if(quantity >= 1)
@@ -34,8 +37,10 @@ namespace ecom_app.Pages.Cart
                 else
                     cartItem.Quantity += 1;
             }
+            //Product don't exist in cart
             else
             {
+                //Add product with user quantity
                 int qty = quantity >= 1 ? quantity : quantity = 1;
                
                 cart.CartItems.Add(new CartItem

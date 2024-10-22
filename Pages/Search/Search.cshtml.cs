@@ -29,15 +29,17 @@ namespace ecom_app.Pages.Search
 
         public int currentPage { get; set; } = 1;
         public int totalPages { get; set; }
-        public int productsPerPage { get; set; } = 10; 
+        public int productsPerPage { get; set; } = 12; 
         public int totalProducts { get; set; }
 
 
-        public async Task OnGetAsync(string? query, string? category, decimal? minPrice, decimal? maxPrice, int currentPage = 1)
+        //Show products based on user request from search bar
+        public async Task OnGetAsync(string? query, string? category, decimal? minPrice, decimal? maxPrice, int currPage)
         {
             Query = query;
             SelectedCategory = category;
             products = null;
+            currentPage = Math.Max(1, currPage);
             products = _context.Product.Include(c => c.Category);
 
             if (!string.IsNullOrEmpty(Query))
@@ -65,6 +67,7 @@ namespace ecom_app.Pages.Search
             int totalItems = await products.CountAsync();
             totalPages = (int)Math.Ceiling(totalItems / (double)productsPerPage);
 
+            //pagination
             SearchResults = await products
                 .Skip((currentPage - 1) * productsPerPage)
                 .Take(productsPerPage)
@@ -74,10 +77,11 @@ namespace ecom_app.Pages.Search
             //SearchResults = products.ToList();
         }
 
+        //Sort th search result based on price (asc or desc)
         public async Task<IActionResult> OnPostSortAsync(string sort, string query, string category, decimal? minPrice, decimal? maxPrice, int currPage)
         {
             Sort = sort;
-            currentPage = currPage;
+            currentPage = Math.Max(1, currPage);
 
             IQueryable<Product> products = _context.Product.Include(c => c.Category);
 
@@ -115,10 +119,14 @@ namespace ecom_app.Pages.Search
             int totalItems = await products.CountAsync();
             totalPages = (int)Math.Ceiling(totalItems / (double)productsPerPage);
 
+            totalProducts = products.Count();
+
             SearchResults = await products
                 .Skip((currentPage - 1) * productsPerPage)
                 .Take(productsPerPage)
                 .ToListAsync();
+
+            totalProducts = SearchResults.Count();
 
             return Page();
         }

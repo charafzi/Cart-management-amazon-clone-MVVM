@@ -6,10 +6,12 @@ using System;
 
 namespace ecom_app.Extensions
 {
+    //To manage the cart in cookie
     public static class CookieCartExtensions
     {
         private const string cookieKey = "CartCookie";
 
+        //Serialize to cookie
         public static void SetCartCookie(this HttpResponse response, Cart cart)
         {
             var cartJson = JsonConvert.SerializeObject(cart);
@@ -22,6 +24,7 @@ namespace ecom_app.Extensions
             response.Cookies.Append(cookieKey, cartJson, options);
         }
 
+        //Deserialize from cookie
         public static Cart GetCartFromCookie(this HttpRequest request)
         {
             if (request.Cookies.TryGetValue(cookieKey, out var cartCookie))
@@ -32,10 +35,11 @@ namespace ecom_app.Extensions
                     : JsonConvert.DeserializeObject<Cart>(cartCookie);
             }
 
-            //no cookie exists
+            //no cookie exists then create empty cart
             return new Cart { CartItems = new List<CartItem>() };
         }
 
+        //Delete cart in cookie
         public static void RemoveCartCookie(this HttpResponse response)
         {
             response.Cookies.Delete(cookieKey);
